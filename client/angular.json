@@ -3,10 +3,16 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sample-app": {
+    "pwa-demo": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -14,14 +20,11 @@
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/assets",
-              "src/browserconfig.xml",
               "src/favicon.ico",
-              "src/manifest.json",
-              "src/web.config"
+              "src/assets"
             ],
             "styles": [
               "src/styles/ui-kit/ui-kit.scss",
@@ -30,15 +33,13 @@
             "scripts": []
           },
           "configurations": {
-            "hmr": {
+            "production": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.hmr.ts"
+                  "with": "src/environments/environment.prod.ts"
                 }
-              ]
-            },
-            "production": {
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -48,12 +49,11 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json",
-              "fileReplacements": [
+              "budgets": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 }
               ]
             }
@@ -62,21 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "sample-app:build"
+            "browserTarget": "pwa-demo:build"
           },
           "configurations": {
-            "hmr": {
-              "browserTarget": "sample-app:build:hmr"
-            },
             "production": {
-              "browserTarget": "sample-app:build:production"
+              "browserTarget": "pwa-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sample-app:build"
+            "browserTarget": "pwa-demo:build"
           }
         },
         "lint": {
@@ -86,25 +83,13 @@
               "src/tsconfig.app.json",
               "src/tsconfig.spec.json"
             ],
-            "exclude": []
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
-    },
-    "sample-app-e2e": {
-      "root": "",
-      "sourceRoot": "",
-      "projectType": "application"
     }
   },
-  "defaultProject": "sample-app",
-  "schematics": {
-    "@schematics/angular:component": {
-      "prefix": "app",
-      "styleext": "scss"
-    },
-    "@schematics/angular:directive": {
-      "prefix": "app"
-    }
-  }
+  "defaultProject": "pwa-demo"
 }
