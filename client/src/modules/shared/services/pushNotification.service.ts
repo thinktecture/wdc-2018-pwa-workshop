@@ -1,24 +1,19 @@
 import {Injectable} from '@angular/core';
-import {SwPush} from '@angular/service-worker';
-import {Observable, of, from as fromPromise} from 'rxjs';
+import {from as fromPromise, Observable, of} from 'rxjs';
 import {ApiService} from './base/api.service';
-import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class PushNotificationService {
     private _pushSubscription: PushSubscription;
 
-    constructor(private _swPush: SwPush, private _apiService: ApiService) {
+    constructor(private _apiService: ApiService) {
     }
 
     public async register(): Promise<void> {
-        console.log('Push:', this._swPush.isEnabled);
-        if (!this._swPush.isEnabled) {
-            return;
-        }
-
         // Key generation: https://web-push-codelab.glitch.me
         // TODO
+        const subscription = null;
+        this._apiService.post('push', subscription);
     }
 
     public unregister(): Observable<boolean> {
