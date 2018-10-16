@@ -20,9 +20,9 @@ export class TodoService {
         return this.table.put(item);
     }
 
-    public async update(item: ITodoItem): Promise<number> {
+    public async update(item: ITodoItem): Promise<boolean> {
         item.changed = true;
-        return await this.table.update(item.id, item);
+        return !!(await this.table.update(item.id, item));
     }
 
     public async delete(item: ITodoItem): Promise<boolean> {

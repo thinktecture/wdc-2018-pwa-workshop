@@ -8,6 +8,7 @@ import {NotificationService} from '../../../shared/services/notification.service
 import {TodoItem} from '../../../shared/models/todoItem.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WINDOW} from '../../../shared/services/window.token';
+import {fromPromise} from 'rxjs/internal-compatibility';
 
 @Component({
     selector: 'todo-list',
@@ -59,7 +60,7 @@ export class TodoListComponent implements OnChanges {
 
     public shareItem(item: ITodoItem): void {
         if (item.syncId) {
-            this._shareService.share('New Todo!', item.text, this._shareUrl)
+            fromPromise(this._shareService.share('New Todo!', item.text, this._shareUrl))
                 .subscribe(success => {
                     if (!success) {
                         this._notificationService.showNotification('Error!', 'Sharing Todo item failed!');
