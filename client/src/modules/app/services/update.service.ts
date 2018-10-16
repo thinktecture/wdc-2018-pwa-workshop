@@ -11,11 +11,7 @@ export class UpdateService {
     }
 
     public register(): void {
-        if (!this._swUpdate.isEnabled) {
-            return;
-        }
-        this._subscription = this._swUpdate.available.subscribe(() => this._notificationService
-            .showNotification('Update available!', 'Please reload to update the application'));
+     // TODO
     }
 
     public unregister(): void {
