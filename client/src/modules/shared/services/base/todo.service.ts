@@ -11,26 +11,27 @@ export class TodoService {
 
     public getAll(includeDeleted: boolean): Promise<Array<ITodoItem>> {
         if (includeDeleted) {
-            // TODO
+            return this.table.toArray();
         }
-        // TODO
+        return this.table.filter(item => !item.deleted).reverse().toArray();
     }
 
     public add(item: ITodoItem): Promise<number> {
-        // TODO
+        return this.table.put(item);
     }
 
-    public async update(item: ITodoItem): Promise<number> {
+    public async update(item: ITodoItem): Promise<boolean> {
         item.changed = true;
-        // TODO
+        return !!(await this.table.update(item.id, item));
     }
 
-    public async delete(item: ITodoItem): Promise<number> {
+    public async delete(item: ITodoItem): Promise<boolean> {
         if (!item.syncId) {
-            // TODO: delete from table
+            await this.table.delete(item.id);
+            return Promise.resolve(true);
         } else {
             item.deleted = true;
-            // TODO: mark as deleted and update record
+            return !!(await this.table.update(item.id, item));
         }
     }
 
