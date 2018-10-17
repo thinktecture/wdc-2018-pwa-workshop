@@ -41,7 +41,7 @@ On your favorite terminal, please run:
 ```
 npm uninstall -g angular-cli @angular/cli
 npm cache verify
-npm install -g @angular/cli@6.2.2
+npm install -g @angular/cli@7.0.0-rc.3
 ```
 
 The installation was successful, when the following command shows Angular CLI’s version information:
