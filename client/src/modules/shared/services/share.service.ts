@@ -9,17 +9,17 @@ export class ShareService {
     constructor(private _featureService: FeatureService, @Inject(WINDOW) private _window: Window) {
     }
 
-    public share(title: string, text: string, url: string): Observable<boolean> {
+    public share(title: string, text: string, url: string): Observable<void> {
         const feature = this._featureService.detectFeature(BrowserFeatureKey.WebShareAPI);
         if (feature.supported) {
             return fromPromise(this._share(title, text, url));
         } else {
             this._sendMail(title, text, url);
-            return of(true);
+            return of(void 0);
         }
     }
 
-    private _share(title: string, text: string, url: string): Promise<boolean> {
+    private _share(title: string, text: string, url: string): Promise<void> {
         return this._window.navigator.share({
             title: title,
             text: text,

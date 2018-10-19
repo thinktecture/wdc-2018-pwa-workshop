@@ -1,5 +1,14 @@
 import {
-    ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnChanges, Output, QueryList, SimpleChanges,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Inject,
+    Input,
+    OnChanges,
+    Output,
+    QueryList,
+    SimpleChanges,
     ViewChildren
 } from '@angular/core';
 import {ITodoItem} from '../../../shared/models/contracts/todoItem.interface';
@@ -8,6 +17,8 @@ import {NotificationService} from '../../../shared/services/notification.service
 import {TodoItem} from '../../../shared/models/todoItem.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WINDOW} from '../../../shared/services/window.token';
+import {catchError} from 'rxjs/operators';
+import {EMPTY, of} from 'rxjs';
 
 @Component({
     selector: 'todo-list',
@@ -60,11 +71,13 @@ export class TodoListComponent implements OnChanges {
     public shareItem(item: ITodoItem): void {
         if (item.syncId) {
             this._shareService.share('New Todo!', item.text, this._shareUrl)
-                .subscribe(success => {
-                    if (!success) {
+                .pipe(
+                    catchError((err) => {
                         this._notificationService.showNotification('Error!', 'Sharing Todo item failed!');
-                    }
-                })
+                        console.log('share error', err);
+                        return of(void 0);
+                    })
+                ).subscribe()
         }
     }
 

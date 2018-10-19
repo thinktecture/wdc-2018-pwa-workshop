@@ -1,3 +1,3 @@
 interface Navigator {
-    share(obj: any): Promise<boolean>;
+    share(obj: any): Promise<void>;
 }
